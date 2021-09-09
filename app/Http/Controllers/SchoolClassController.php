@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
+use App\Models\SchoolClassTeacher;
+use App\Models\Teacher;
 
 class SchoolClassController extends Controller
 {
@@ -26,6 +28,11 @@ class SchoolClassController extends Controller
     public function create()
     {
         return view('schoolClass.create');
+    }
+
+    public function add(SchoolClass $schoolClass, Request $request){
+        $schoolClass->teachers()->attach($request->teacher);
+        return redirect()->route('schoolClass.show',['schoolClass'=>$schoolClass]);
     }
 
     /**
@@ -51,8 +58,22 @@ class SchoolClassController extends Controller
      */
     public function show(SchoolClass $schoolClass)
     {
+        // $teachers = Teacher::all();
       
-       return view('schoolClass.show',['schoolClass' =>$schoolClass ]);
+
+        $id = $schoolClass->id;
+
+    //    dd( Teacher::where('id','=','1')->toSql() );
+
+      $teachers = Teacher::with('classes')->whereDoesntHave('classes', function($query) use ($id) {
+        $query->where('school_class_id', $id);
+        })->get()/*->toSql()*/;
+
+
+
+
+
+       return view('schoolClass.show',['schoolClass' =>$schoolClass,'teachers'=>$teachers ]);
     }
 
     /**
@@ -63,6 +84,7 @@ class SchoolClassController extends Controller
      */
     public function edit(SchoolClass $schoolClass)
     {
+        $schoolClass->teachers->attatch(3);
         return view('schoolClass.edit', ['schoolClass' => $schoolClass]);
 
     }

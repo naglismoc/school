@@ -14,13 +14,10 @@ class SchoolClass extends Model
         return $this->hasMany('App\Models\Student', 'school_class_id', 'id');
     }
 
-    public function biologySudents()
-    {
-        return $this->hasMany('App\Models\Student', 'school_class_id', 'id');
-    }
-
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(Teacher::class,'school_class_teachers');
     }
+
+ 
 }

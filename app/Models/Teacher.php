@@ -10,6 +10,6 @@ class Teacher extends Model
     use HasFactory;
     public function classes()
     {
-        return $this->belongsToMany(SchoolClass::class);
+        return $this->belongsToMany(SchoolClass::class,'school_class_teachers');
     }
 }

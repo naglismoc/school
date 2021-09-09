@@ -33,6 +33,7 @@ Route::group(['prefix' => 'schoolClasses'], function(){
    Route::post('update/{schoolClass}', [SchoolClassController::class, 'update'])->name('schoolClass.update');
    Route::post('delete/{schoolClass}', [SchoolClassController::class, 'destroy'])->name('schoolClass.destroy');
    Route::get('show/{schoolClass}', [SchoolClassController::class, 'show'])->name('schoolClass.show');
+   Route::post('add/{schoolClass}', [SchoolClassController::class, 'add'])->name('schoolClass.add');
 });
 
 Route::group(['prefix' => 'students'], function(){
